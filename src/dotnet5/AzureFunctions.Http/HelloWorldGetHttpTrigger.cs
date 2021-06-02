@@ -1,15 +1,16 @@
 using System.Net;
+using System.Net.Http;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 
 namespace AzureFunctionsUniversity.Demo
 {
-    public static class HelloWorldHttpTrigger
+    public static class HelloWorldGetHttpTrigger
     {
-        [Function("HelloWorldHttpTrigger")]
+        [Function("HelloWorldGetHttpTrigger")]
         public static HttpResponseData Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post")] HttpRequestData req,
+            [HttpTrigger(AuthorizationLevel.Function, nameof(HttpMethod.Get))] HttpRequestData req,
             FunctionContext executionContext)
         {
             var logger = executionContext.GetLogger("HelloWorldHttpTrigger");

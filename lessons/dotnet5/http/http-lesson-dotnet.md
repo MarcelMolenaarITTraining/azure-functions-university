@@ -47,34 +47,33 @@ In this exercise, you'll be creating a Function App with the default HTTPTrigger
 
 3. Select the language you'll be using to code the function, in this lesson we'll be using `C#`.
 4. Select `.NET 5 isolated` as the runtime.
-4. Select `HTTPTrigger` as the template.
-5. Give the function a name (e.g. `HelloWorldHttpTrigger`).
-6. Enter a namespace for the function (e.g. `AzureFunctionsUniversity.Demo`).
+5. Select `HTTPTrigger` as the template.
+6. Give the function a name (e.g. `HelloWorldHttpTrigger`).
+7. Enter a namespace for the function (e.g. `AzureFunctionsUniversity.Demo`).
     > 📝 **Tip** - Namespaces are used to organize pieces of code into a hierarchy. Make sure you don't use the exact same name as the function/class. Namespaces and classes should be named uniquely to prevent compiler and readability issues.
-7. Select `Function` for the AccessRights.
+8. Select `Function` for the AccessRights.
     > 🔎 **Observation** - Now a new Azure Functions project is being generated. Once it's done, look at the files in the project. You will see the following:
 
     |File|Description
     |-|-
     |AzureFunctions.Http.csproj|The C# project file which specifies the .NET version, Azure Functions version and package references.
     |HelloWorldHttpTrigger.cs|The C# class containing the HTTPTrigger function method.
+    |Program.cs|The C# class is responsible for starting the isolated process your function will be running in.
     |host.json|Contains [global configuration options](https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json) for all the functions in a function app.
     |local.settings.json|Contains [app settings and connectionstrings](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#local-settings-file) for local development.
 
     > ❔ **Question** - Review the generated HTTPTrigger function. What is it doing?
-8. Build the project (CTRL+SHIFT+B).
+9. Build the project (CTRL+SHIFT+B).
 
-9. Start the Function App by pressing `F5`.
+10. Start the Function App by pressing `F5`.
     > 🔎 **Observation** - Eventually you should see an HTTP endpoint in the output.
-10. Now call the function by making a GET request to the above endpoint using a REST client:
+11. Now call the function by making a GET request to the above endpoint using a REST client:
 
     ```http
-    GET http://localhost:7071/api/HelloWorldHttpTrigger?name=YourName
+    GET http://localhost:7071/api/HelloWorldHttpTrigger
     ```
 
     > ❔ **Question** - What is the result of the function? Is it what you expected?
-
-    > ❔ **Question** - What happens when you don't supply a value for the name?
 
 ## 2. Changing the template for GET requests
 
@@ -85,7 +84,7 @@ Start with only allowing GET requests.
 ### Steps
 
 1. Remove the `"post"` string from the `HttpTrigger` attribute. Now the function can only be triggered by a GET request.
-    > 📝 **Tip** - Some people don't like to use strings and prefer something that is known as _strong typing_. Strong typing can prevent you from making certain mistakes such as typos in strings since specific .NET types are used instead. To allow the function to be triggered by a GET request replace the `"get"` string with `nameof(HttpMethods.Get)`. Now you're using a strongly typed version of the HTTP GET verb instead of a string reference.
+    > 📝 **Tip** - Some people don't like to use strings and prefer something that is known as _strong typing_. Strong typing can prevent you from making certain mistakes such as typos in strings since specific .NET types are used instead. To allow the function to be triggered by a GET request replace the `"get"` string with `nameof(HttpMethod.Get)`. You'll need to add using to the `System.Net.Http` namespace to use the `HttpMethod` class. Now you're using a strongly typed version of the HTTP GET verb instead of a string reference.
 2. The `req` parameter type can also be changed. Try changing it from  `HttpRequest` to `HttpRequestMessage`. This requires a using of `System.Net.Http`.
 
     > 🔎 **Observation** - You'll notice that this change breaks the code inside the function. This is because the `HttpRequestMessage` type has different properties and methods than the `HttpRequest` type.
