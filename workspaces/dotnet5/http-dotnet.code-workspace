@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\lessons\\dotnet5\\prerequisites",
+			"name" : ".NET Prerequisites"
+		},
+		{
+			"path": "..\\..\\lessons\\dotnet5\\http",
+			"name" : "HTTP Lesson"
+		},
+		{
+			"path": "..\\..\\src\\dotnet5\\AzureFunctions.Http",
+			"name" : "AzureFunctions.HTTP Function App"
+		},
+		{
+			"path": "..\\..\\test\\dotnet5\\http",
+			"name" : "REST Client test files"
+		},
+		{
+			"path": "..\\..\\src\\dotnet5\\homework",
+			"name" : "Homework (solution)"
+		},
+		{
+			"path": "..\\..\\.tours\\dotnet5\\http",
+			"name" : "(Code Tour files)"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen"
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-azuretools.vscode-azurefunctions",
+			"ms-dotnettools.csharp",
+			"vsls-contrib.codetour"
+		]
+	}
+}
