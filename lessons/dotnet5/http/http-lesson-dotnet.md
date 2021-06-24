@@ -13,7 +13,7 @@ This lessons consists of the following exercises:
 |0|[Prerequisites](#0-prerequisites)
 |1|[Creating a Function App](#1-creating-a-function-app)
 |2|[Changing the template for GET requests](#2-changing-the-template-for-get-requests)
-|3|[Changing the template for POST requests](#3-changing-the-template-for-post-requests)
+|3|[Read a value from the query string](#3-read-a-value-from-the-query)
 |4|[Adding a new function for POST requests](#4-adding-a-new-function-for-post-requests)
 |5|[Change the route for a custom greeting](#5-change-the-route-for-a-custom-greeting)
 |6|[Homework](#6-homework)
@@ -85,49 +85,12 @@ Start with only allowing GET requests.
 
 1. Remove the `"post"` string from the `HttpTrigger` attribute. Now the function can only be triggered by a GET request.
     > 📝 **Tip** - Some people don't like to use strings and prefer something that is known as _strong typing_. Strong typing can prevent you from making certain mistakes such as typos in strings since specific .NET types are used instead. To allow the function to be triggered by a GET request replace the `"get"` string with `nameof(HttpMethod.Get)`. You'll need to add using to the `System.Net.Http` namespace to use the `HttpMethod` class. Now you're using a strongly typed version of the HTTP GET verb instead of a string reference.
-2. The `req` parameter type can also be changed. Try changing it from  `HttpRequest` to `HttpRequestMessage`. This requires a using of `System.Net.Http`.
 
-    > 🔎 **Observation** - You'll notice that this change breaks the code inside the function. This is because the `HttpRequestMessage` type has different properties and methods than the `HttpRequest` type.
-3. Remove the content of the function method (but keep the method definition). We'll be writing a new implementation.
-4. Remove the `async Task` part of the method definition since the method is not asynchronous anymore. The method should look like this now:
 
-    ```csharp
-    public static IActionResult Run(...)
-    ```
+2. Start the function app and check the output if the function can only be triggered by a GET request.
 
-5. To get the name from the query string you can do the following:
 
-    ```csharp
-    var collection = req.RequestUri.ParseQueryString();
-    string name = collection["name"];
-    ```
-
-    > 🔎 **Observation** - In the generated template the response was always an `OkResultObject`. This means that when a clients calls the function, an HTTP status 200, is always returned. Let's make the function a bit smarter and return a `BadRequestObjectResult` (HTTP status 400).
-6. Add an `if` statement to the function that checks if the name value is `null`. If the name is `null` return a `BadRequestObjectResult`, otherwise return a `OkResultObject`.
-
-    ```csharp
-    ObjectResult result;
-    if(string.IsNullOrEmpty(name))
-    {
-        var responseMessage = "Pass a name in the query string or in the request body for a personalized response.";
-        result = new BadRequestObjectResult(responseMessage);
-    }
-    else
-    {
-        var responseMessage = $"Hello, {name}. This HTTP triggered function executed successfully.";
-        result = new OkObjectResult(responseMessage);
-    }
-
-    return result;
-    ```
-
-    Now the function has proper return values for both correct and incorrect invocations.
-
-7. Run the function, once without name value in the querystring, and once with a name value.
-
-    > ❔ **Question** - Is the outcome of both runs as expected?
-
-## 3. Changing the template for POST requests
+## 3. Read a value from the query string
 
 Let's change the function to also allow POST requests and test it by posting a request with JSON content in the body.
 
